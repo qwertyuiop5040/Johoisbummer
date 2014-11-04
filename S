@@ -20,3 +20,10 @@ public class Stuff implements List<String>{
 		}
 		a=c;
 	}
+	@Override
+	public boolean addAll(Collection<? extends String> arg0) {
+		for(String s:arg0){
+			add(s);
+		}
+		return false;
+	}
