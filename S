@@ -37,3 +37,15 @@ public class Stuff implements List<String>{
 		}
 		return false;
 	}
+	@Override
+	public boolean addAll(int arg0, Collection<? extends String> arg1) {
+		String temp[]=new String[arg1.size()];
+		int on2=arg1.size()-1;
+		for(String s:arg1){
+			temp[on2--]=s;
+		}
+		for(String s:temp){
+			add(arg0, s);
+		}
+		return false;
+	}
