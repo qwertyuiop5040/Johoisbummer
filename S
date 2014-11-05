@@ -117,3 +117,9 @@ public class Stuff implements List<String>{
 		// TODO Auto-generated method stub
 		return on==0;
 	}
+	@Override
+	public <T> T[] toArray(T[] arg0) {
+		for(int i=0;i<a.length;i++)
+			arg0[i]=(T) a[i];
+		return arg0;
+	}
