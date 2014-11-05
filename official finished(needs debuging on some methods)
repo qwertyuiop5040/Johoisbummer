@@ -1,0 +1,291 @@
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+
+public class Stuff implements List<String>{
+	String a[];
+	int size=10;
+	int on=0;
+	public Stuff(){
+		a=new String[size];
+		
+	}
+	@Override
+	public boolean add(String arg0) {
+		a[on]=arg0;
+		if(++on>=size)doubleSize();
+		return false;
+	}
+	private void doubleSize(){
+		size=size*2+1;
+		String c[]=new String[size];
+		for(int i=0;i<a.length;i++){
+			c[i]=a[i];
+		}
+		a=c;
+	}
+	@Override
+	public void add(int arg0, String arg1) {
+		if (arg0>on)arg0=on;
+		for(int i=on;i>=arg0;i--){
+			if(i==arg0){
+				a[i]=arg1;
+			}
+			else a[i]=a[i-1];
+		}
+		if(++on>=size)doubleSize();
+		
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends String> arg0) {
+		for(String s:arg0){
+			add(s);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addAll(int arg0, Collection<? extends String> arg1) {
+		String temp[]=new String[arg1.size()];
+		int on2=arg1.size()-1;
+		for(String s:arg1){
+			temp[on2--]=s;
+		}
+		for(String s:temp){
+			add(arg0, s);
+		}
+		return false;
+	}
+
+	@Override
+	public void clear() {
+		on=0;
+	}
+
+	@Override
+	public boolean contains(Object arg0) {
+		for(int i=0;i<on;i++){
+			if(arg0.equals(a[i]))return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> arg0) {
+		for(Object s:arg0){
+			if(!contains(s))return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String get(int arg0) {
+		return a[arg0];
+	}
+
+	@Override
+	public int indexOf(Object arg0) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<on;i++){
+			if(a[i].equals(arg0))return i;
+		}
+		return -1;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return on==0;
+	}
+
+
+	@Override
+	public Iterator<String> iterator() {
+		// TODO Auto-generated method stub
+		return new Iterator<String>(){
+			int cc=0;
+			int lastIndex=-1;
+			@Override
+			public boolean hasNext() {
+				return cc<on;
+			}
+
+			@Override
+			public String next() {
+				lastIndex=cc;//the last index of the object called by next
+				return a[cc++];
+			}
+
+			@Override
+			public void remove() {
+				if(lastIndex!=-1)Stuff.this.remove(lastIndex);
+			}
+		};
+	}
+
+	@Override
+	public int lastIndexOf(Object arg0) {
+		for(int i=on+1;i>=0;i--){
+			if(a[i]==arg0)return i;
+		}
+		return -1;
+	}
+
+	@Override
+	public ListIterator<String> listIterator() {
+		return listIterator(0);
+	}
+
+	@Override
+	public ListIterator<String> listIterator(int arg0) {
+		
+		return new JohoEats(arg0);
+	}
+	public class JohoEats implements ListIterator<String>{
+		int cc=0;
+		int lastIndex=-1;
+		public JohoEats(int arg0) {
+			cc=arg0;
+		}
+
+		@Override
+		public void add(String e) {
+			Stuff.this.add(cc,e);
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return cc<on;
+		}
+
+		@Override
+		public boolean hasPrevious() {
+			return cc>0;
+		}
+
+		@Override
+		public String next() {
+			return a[cc++];
+		}
+
+		@Override
+		public int nextIndex() {
+			// TODO Auto-generated method stub
+			return cc;
+		}
+
+		@Override
+		public String previous() {
+			// TODO Auto-generated method stub
+			return a[--cc];//basically for example if cc=3; return a[--cc]=return a[2]; but return a[cc--]=return a[3] 
+		}
+
+		@Override
+		public int previousIndex() {
+			return cc-1;
+		}
+
+		@Override
+		public void remove() {
+			if(lastIndex!=-1)Stuff.this.remove(lastIndex);
+			
+		}
+
+		@Override
+		public void set(String e) {
+			a[cc]=e;
+			
+		}
+		
+	}
+	@Override
+	public boolean remove(Object arg0) {
+		for(int i=0;i<on;i++){
+			if(a[i].equals(arg0)){
+				remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String remove(int arg0) {
+		if(arg0>=on)return null;
+		String temp=a[arg0];
+		for(int i=arg0; i<on;i++){
+			if(i!=on-1)a[i]=a[i+1];
+			else {
+				on--;
+				break;
+			}
+			System.out.println(this.toString());
+		}
+		return temp;
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> arg0) {
+		Iterator<?> it=arg0.iterator();
+		boolean bb=true;
+		while(it.hasNext()){
+			if(!remove((String)it.next()))bb=false;
+		}
+		return bb;
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> arg0) {
+		for(int i=0;i<on;i++){
+			if(arg0.contains(a[i]))remove(a[i]);
+		}
+		return false;
+	}
+
+	@Override
+	public String set(int arg0, String arg1) {
+		return a[arg0]=arg1;
+	}
+
+	@Override
+	public int size() {
+		return on;
+	}
+
+	@Override
+	public List<String> subList(int arg0, int arg1) {
+		Stuff s=new Stuff();//dont want to edit current list or array
+		for(int i=arg0+1;i<arg1;i++){
+			s.add(a[i]);
+		}
+		return s;
+	}
+
+	@Override
+	public Object[] toArray() {
+		String temp[]=new String[on];
+		for(int i=0;i<on;i++){
+			temp[i]=a[i];
+		}
+		return temp;
+	}
+
+	@Override
+	public <T> T[] toArray(T[] arg0) {
+		for(int i=0;i<on;i++)
+			arg0[i]=(T) a[i];
+		return arg0;
+	}
+	@Override
+	public String toString(){
+		String tt="";
+		for(int i=0;i<on;i++)
+			tt+=a[i]+" ";
+		return tt;
+		
+	}
+	
+}
