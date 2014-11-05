@@ -144,3 +144,70 @@ public class Stuff implements List<String>{
 			}
 		};
 	}
+	@Override
+	public ListIterator<String> listIterator() {
+		return listIterator(0);
+	}
+
+	@Override
+	public ListIterator<String> listIterator(int arg0) {
+		
+		return new JohoEats(arg0);
+	}
+	public class JohoEats implements ListIterator<String>{
+		int cc=0;
+		int lastIndex=-1;
+		public JohoEats(int arg0) {
+			cc=arg0;
+		}
+
+		@Override
+		public void add(String e) {
+			Stuff.this.add(cc,e);
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return cc<on;
+		}
+
+		@Override
+		public boolean hasPrevious() {
+			return cc>0;
+		}
+
+		@Override
+		public String next() {
+			return a[cc++];
+		}
+
+		@Override
+		public int nextIndex() {
+			// TODO Auto-generated method stub
+			return cc;
+		}
+
+		@Override
+		public String previous() {
+			// TODO Auto-generated method stub
+			return a[--cc];//basically for example if cc=3; return a[--cc]=return a[2]; but return a[cc--]=return a[3] 
+		}
+
+		@Override
+		public int previousIndex() {
+			return cc-1;
+		}
+
+		@Override
+		public void remove() {
+			if(lastIndex!=-1)Stuff.this.remove(lastIndex);
+			
+		}
+
+		@Override
+		public void set(String e) {
+			a[cc]=e;
+			
+		}
+		
+	}
