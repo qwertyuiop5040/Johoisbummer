@@ -1,0 +1,14 @@
+/*
+ *              Variables, and data are stored in memory.
+ *              An array is just a bunch of contiginuous memory spaces
+ *              When you create an array you have the array holding or "pointing" to a bunch of memory spaces.
+ *              [1][2][3][4][5][6][7]
+ *              But when you set that array equal to other arrays,
+ *              the other arrays are pointing to the SAME memory spaces.
+ *              Since they are pointing to the same memory spaces, if one array is edited, all the arrays pointing to that same memory space(s)
+ *              are also edited.
+ *              
+ *              But when you make a new array, you are initializing a new container to hold a group of completely new memory spaces
+ * 				[8][9][10][11][12][13][14]
+ * 
+ */
