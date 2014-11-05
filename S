@@ -123,3 +123,24 @@ public class Stuff implements List<String>{
 			arg0[i]=(T) a[i];
 		return arg0;
 	}
+	@Override
+	public Iterator<String> iterator() {
+		// TODO Auto-generated method stub
+		return new Iterator<String>(){
+			int cc=0;
+			@Override
+			public boolean hasNext() {
+				return cc<on;
+			}
+
+			@Override
+			public String next() {
+				return hasNext()?a[cc++]:null;
+			}
+
+			@Override
+			public void remove() {
+				//no need to do this
+			}
+		};
+	}
